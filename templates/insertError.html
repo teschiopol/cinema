@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+<!--- Warning generico di gestione errori nelle operazioni --->
+
+{% block pagebody %}
+<form action="/private" method="post" class="center">
+	<p style="text-align: center; font-size:20px; line-height: 40px">Operazione non possibile. Parametri non validi.</p><br>
+	<input type="submit" class="btn-ok" value="Indietro">
+</form>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+<!--- Area Privata singolo utente --->
+
+{% block pagebody %}
+<p style="margin-left: 20px; color: orange; font-size: 20px; margin-top: 30px">Area Privata:</p>
+	<form action="/aggUtente" method="post" style="margin-left: 40px; font-size: 18px">
+		<label for="email">Email</label><br>
+		<input type="text" autocomplete="off" name="email" readonly="true" style="line-height: 15px; margin-bottom: 20px; margin-top: 5px;" value="{{ utente['email'] }}">
+		<br>
+		<label for="pwd">Password</label><br>
+		<input type="password" autocomplete="off" style="line-height: 15px; margin-bottom: 20px; margin-top: 5px;" name="pwd" required="yes" value="{{ utente['pwd'] }}">
+		<input type="button" style="background-color: #9c209c; color: white; border: black solid 1px" id="mostra" value="Mostra" onclick="mostraPwd()" />
+		<br>
+		<label for="name">Nome</label><br>
+		<input type="text" autocomplete="off" name="name" style="line-height: 15px; margin-bottom: 20px; margin-top: 5px;" required="true" value="{{ utente['name'] }}">
+		<br>
+		<label for="surname">Cognome</label><br>
+		<input type="text" autocomplete="off" style="line-height: 15px; margin-bottom: 20px; margin-top: 5px;" name="surname" required="yes" value="{{ utente['surname'] }}">
+		<br>
+		<input type="hidden" name="idruolo" value="2">
+		<input type="submit" class="btn-ok" value="Modifica">
+	</form>
+
+<!--- Gestione errore form per modifica dati --->	
+{% if successo == 'no' %}
+<p style="color: red; margin-left: 20px;">Input non validi. Per favore riprova.</p>
+{% endif %}
+{% if successo == 'si' %}
+<p style="color: green; margin-left: 20px;">Modifiche Effettuate</p>
+{% endif %}
+<br>
+
+<!--- Sezione biglietti acquistati utente --->
+<div style="margin-left: 20px">
+	<p style="font-size: 20px">Biglietti acquistati:</p>
+{% if l == 0 %}
+	Nessuno biglietto acquistato.
+{% else %}
+<ul>
+{% for a in acquisto %}
+<li><span style="color: orange;">Spettacolo</span>: {{a[1].strftime("%d/%m/%y")}} {{a[2].strftime("%H:%M")}} -- <span style="color: orange;">Sala</span>: {{a[4]}} -- <span style="color: orange;">Fila</span>: {% if a[0] <= 10 %}1{% elif a[0] <= 20 %}2{% else %}3{% endif %} -- <span style="color: orange;">Posto</span>: {{a[0]}} -- <span style="color: orange;">Film</span>: {{a[3]}}<br></li>
+{% endfor %}
+</ul>
+{% endif %}
+</div>
+{% endblock %}

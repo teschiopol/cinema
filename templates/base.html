@@ -1,0 +1,59 @@
+<!--- Template di ogni pagina --->
+
+<html>
+<head>
+    <title>Cineplex</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}"/>
+</head>
+<body style="margin: 0px;">
+	<div style="width: 100%; background-color: black; ">
+	<div style="width: 80%; height: 10%; margin-bottom: 20px; text-align: center; color: orange; padding-top: 20px; margin:auto; font-size: 25px"><a href="/">Cineplex</a><br>
+		{% if current_user.is_authenticated %}
+		<form action= '/logout' method="post" style="float: right; margin-right: 20px;">
+			<button type="submit" class="btn-ok" style="color: white; background-color: #9c209c">Logout</button>
+		</form>
+		<form action= '/private' method="post" style="float: right; margin-right: 20px;">
+			<button class="btn-ok" style="width: 120px" type="submit" >{% if current_user.getruolo() == 2 %}Area Privata{% else %}Area Gestione{% endif %}</button>
+		</form>
+	{% else %}
+		<div style=" float: right; margin-right: 20px;">
+		<a  href='/user'/>
+			<button class="btn-ok">Login</button>
+		</a>
+		</div>
+		<div style="float: right; margin-right: 20px;">
+		<a  href='/signup'/>
+			<button class="btn-ok" style="color: white; background-color: #9c209c">Registrati</button>
+		</a>
+		</div>
+	{% endif %}
+		<div style=" float: left; margin-left: 20px;">
+			<a  href='/'/>
+				<button class="btn-ok">Home</button>
+			</a>
+		</div>	
+	</div>
+	</div>
+	<div style="margin: 20px 10px 0px 10px;">
+    {% block pagebody %}
+    {% endblock %}
+	</div>
+
+	<!--- Script JS visto da tutti i file --->
+	<script type="text/javascript">
+		// mostra/nascondi campo pwd
+		function mostraPwd(){
+			var pwd = document.getElementsByName('pwd');
+			console.log(pwd);
+			if (pwd[0].type === 'password'){
+				pwd[0].type = 'text' ;
+				document.getElementById('mostra').value = 'Nascondi';
+			}else{
+				pwd[0].type = 'password';
+				document.getElementById('mostra').value = 'Mostra';
+			}
+		}
+	</script>
+</body>
+</html>

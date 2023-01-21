@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+<!--- Homepage con elenco Film --->
+
+{% block pagebody %}
+<div style="width: 70%; margin: auto; position: relative; left: 35%; transform: translate(-50%);">
+	<!--- Form ricerca film --->
+	<form action="/cerca" method="POST" style="margin-bottom: 20px; ">
+		<label for="genere">Genere:</label>
+		<select name="genere" id="genere">
+			<option value="">Tutti</option>
+			{% for g in gen %}
+				<option value="{{ g.name }}" id="{{ g.name }}">{{ g.name }}</option>
+			{% endfor %}
+		</select>
+		<label style="margin-left: 20px;" for="genere">Regista:</label>
+		<select style="margin-right: 20px" name="regista" id="regista">
+			<option value="">Tutti</option>
+			{% for r in reg %}
+				<option value="{{ r.name }}" id="{{ r.name }}" >{{ r.name }}</option>
+			{% endfor %}
+		</select>	
+		<button type="submit" class="btn-ok">Cerca</button>
+		<input type="button" class="btn-ok" style="color: orange; background-color: black" onclick=" var el = this.form.elements['genere']; var el2 = this.form.elements['regista']; el.value = ''; el2.value = ''; " value="Reset"></button>
+	</form>
+	<!--- Lista film presenti in catalogo --->
+	<div style="border:solid; border-width: 1px; margin-bottom: 10px; width: 80%; margin-left: 10%"></div>
+	<div style="overflow: auto; height: 70%; width: 70%; margin: auto">
+	{% for f in films %}
+		<form action="/acquista" method="POST" style="margin-top: 10px;   width: 100%;">
+		<span style="color: orange">Autore:</span> {{ f.autore }} - <span style="color: orange">Genere:</span> {{ f.genere }}<br><span style="color: orange">Durata:</span> {{ f.durata }} minuti - <span style="color: orange">Titolo:</span> {{ f.film }}
+		<input type="hidden" name="idfilm" value="{{ f.id }}">
+		<button style="float: right; margin-right: 5%;" type="submit" class="btn-ok">Compra</button>
+		</form>
+		<div style="border:solid; border-width: 1px; margin-bottom: 10px; width: 90%"></div>
+	{% endfor %}
+	</div>
+	<div style="border:solid; border-width: 1px; margin-bottom: 10px; width: 80%; margin-left: 10%"></div>
+</div>	
+
+<!--- Script JS per filtro cerca --->
+<script type="text/javascript">
+		if ("{{ regista }}" ){
+			document.getElementById("{{ regista }}").selected = 'selected';
+		}
+		if ("{{ genere }}" ){
+			document.getElementById("{{ genere }}").selected = 'selected';
+		}	
+</script>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+<!--- Selezione Posto da Acquistare --->
+
+{% block pagebody %}
+<form action="javascript:controllo()" method="post" name="posto" id="posto" onchange="countPrice()" class="center" style="top: 33%; width: 70%; margin-top: 40px;">
+<input style="float: left; margin-left: 20%" type="button" value="Indietro" class="btn-back" onclick="back()"><br>
+<p></p>
+<input type="hidden" name="idfilm" value="{{ film }}">
+<input type="hidden" name="idspettacoli" value="{{ spettacolo }}">
+<p style="text-align: center; font-size:20px;">---- Schermo ----</p>
+Fila 1 |
+<input type="checkbox" value="1" name="1" id="1">
+<input type="checkbox" value="2" name="2" id="2">
+<input type="checkbox" value="3" name="3" id="3">
+<input type="checkbox" value="4" name="4" id="4">
+<input type="checkbox" value="5" name="5" id="5">
+<input type="checkbox" value="6" name="6" id="6">
+<input type="checkbox" value="7" name="7" id="7">
+<input type="checkbox" value="8" name="8" id="8">
+<input type="checkbox" value="9" name="9" id="9">
+<input type="checkbox" value="10" name="10" id="10"> |<br>
+Fila 2 |
+<input type="checkbox" value="11" name="11" id="11">
+<input type="checkbox" value="12" name="12" id="12">
+<input type="checkbox" value="13" name="13" id="13">
+<input type="checkbox" value="14" name="14" id="14">
+<input type="checkbox" value="15" name="15" id="15">
+<input type="checkbox" value="16" name="16" id="16">
+<input type="checkbox" value="17" name="17" id="17">
+<input type="checkbox" value="18" name="18" id="18">
+<input type="checkbox" value="19" name="19" id="19">
+<input type="checkbox" value="20" name="20" id="20"> |<br>
+{% if sala == '2' %}
+Fila 3 |
+<input type="checkbox" value="21" name="21" id="21">
+<input type="checkbox" value="22" name="22" id="22">
+<input type="checkbox" value="23" name="23" id="23">
+<input type="checkbox" value="24" name="24" id="24">
+<input type="checkbox" value="25" name="25" id="25">
+<input type="checkbox" value="26" name="26" id="26">
+<input type="checkbox" value="27" name="27" id="27">
+<input type="checkbox" value="28" name="28" id="28">
+<input type="checkbox" value="29" name="29" id="29">
+<input type="checkbox" value="30" name="30" id="30"> |<br>
+{% endif %}
+<br>
+<label for="confermaAcq" style="float: right; font-size: 16px;margin-right: 20%" id="priceTotale">Totale: 0,00 €</label><br>
+<input style="float: right; margin-right: 20%" id="confermaAcq" type="submit" class="btn-ok" value="Acquista">
+<form>
+<p id="warning" style="display: none; color: orange">Selezionare almeno un biglietto, grazie.</p>
+
+<!--- Script JS --->
+<script type="text/javascript">
+	// nasconde posti occupati
+	{%for e in range(0, len)%}
+		document.getElementById('{{presi[e][0]}}').style.visibility = 'hidden';
+	{%endfor%}
+
+
+	var c=0;
+
+	// aggiorna contatore prezzo
+	function countPrice(){
+		c=0;
+		var form = document.getElementById('posto');
+		for (var i = 2; i < form.length ; i++) {
+			if (form[i].checked){
+				c++;
+			}
+		}
+		c = c * 5;
+		document.getElementById('priceTotale').innerHTML = 'Totale: '+c+',00 €' ;
+	}
+
+	// selezione di almeno un biglietto
+	function controllo(){
+		var form = document.getElementById('posto');
+		if (c!=0){
+			form.action = '/acquistaPosto';
+			form.submit();
+		}else{
+			document.getElementById('warning').style.display = 'block';
+		}
+	}
+
+	// indietro
+	function back(){
+		var form = document.getElementById('posto');
+		form.action = '/acquista';
+		form.submit();
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+<!--- Registrazione nuovo utente --->
+
+{% block pagebody %}
+<div class="center" style="font-size: 20px; font-size: 20px; border: 2px solid orange; padding: 20px; margin-top: 50px" >
+<p style="color: orange; margin-top: 30px;">Registrazione:</p>
+<form action="/registrato" method="post" >
+	<label for="email">Email</label><br>
+	<input type="text" autocomplete="off" name="email" required="true" style="margin: 15px 0;">
+	<br>
+	<label for="pwd">Password</label><br>
+	<input type="password" autocomplete="off" name="pwd" required="true" style="margin: 15px 0; margin-left: 60px;">
+	<input type="button" id="mostra" style="background-color: #9c209c; color: white; border: black solid 1px" value="Mostra" onclick="mostraPwd()" />
+	<br>
+	<label for="name">Nome</label><br>
+	<input type="text" autocomplete="off" name="name" required="true" style="margin: 15px 0;">
+	<br>
+	<label for="surname">Cognome</label><br>
+	<input type="text" autocomplete="off" name="surname" required="true" style="margin: 15px 0;">
+	<br>
+	<input type="hidden" name="idruolo" value="2">
+	<input type="submit" class="btn-ok" value="Registrati">
+</form>
+</div>
+<!--- Gestione esiti inerenti al form --->
+{% if errore == 'e' %}
+<p style="color: red; text-align: center;">Email non valida. Per favore inserisci un formato valido.</p>
+{% endif %}
+{% if errore == 'si' %}
+<p style="color: red; text-align: center;">Email già in uso. Per favore selezionarne un'altra.</p>
+{% endif %}
+{% if errore == 'd' %}
+<p style="color: red; text-align: center;">Testo non valido. Per favore riprova.</p>
+{% endif %}
+{% endblock %}

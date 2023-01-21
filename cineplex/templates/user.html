@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+<!--- Pagina di Login --->
+{% block pagebody %}
+{% if successo == 'si' %}
+<p style="color: green; text-align: center;">Registrato con successo.</p><br>
+{% endif %}	
+	<div class="center" style="font-size: 20px; font-size: 20px; border: 2px solid orange; padding: 20px;">
+	<p style=" margin-top: 30px; color: orange">Login:</p>
+	<form action="/login" method="POST" style="margin-left: 0px">
+		<label for="email">Email</label><br>
+		<input type="text" autocomplete="off" required="true" name="email" style="margin: 15px 0;">
+		<br>
+		<label for="pwd">Password</label><br>
+		<input type="password" autocomplete="off" required="true" name="pwd" style="margin: 15px 0; margin-left: 60px">
+		<input type="button" style="background-color: #9c209c; color: white; border: black solid 1px" id="mostra" value="Mostra" onclick="mostraPwd()" />
+		<br>
+		<input type="submit" value="Login" class="btn-ok">
+	</form>
+{% if successo == 'no' %}
+<p style="color: red; margin-left: 20px;">Login non valido. Per favore riprova.</p>
+{% endif %}
+</div>
+{% endblock %}
