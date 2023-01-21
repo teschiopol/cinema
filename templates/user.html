@@ -9,10 +9,10 @@
 	<p style=" margin-top: 30px; color: orange">Login:</p>
 	<form action="/login" method="POST" style="margin-left: 0px">
 		<label for="email">Email</label><br>
-		<input type="text" autocomplete="off" required="true" name="email" style="margin: 15px 0;">
+		<input type="text" autocomplete="off" required id="email" name="email" class="m-15-0">
 		<br>
 		<label for="pwd">Password</label><br>
-		<input type="password" autocomplete="off" required="true" name="pwd" style="margin: 15px 0; margin-left: 60px">
+		<input type="password" autocomplete="off" id="pwd" required name="pwd" class="m-15-0" style="margin-left: 60px">
 		<input type="button" style="background-color: #9c209c; color: white; border: black solid 1px" id="mostra" value="Mostra" onclick="mostraPwd()" />
 		<br>
 		<input type="submit" value="Login" class="btn-ok">

@@ -23,10 +23,10 @@
 	<!--- Sezione Aggiungi Film --->
 	<form action="/filmInserito" method="post" style=" display: none" id="addfilm">
 		<label for="name">Name</label><br>
-		<input type="text" autocomplete="off" style="margin-bottom: 15px;" name="name" required="true">
+		<input type="text" autocomplete="off" id="name" style="margin-bottom: 15px;" name="name" required>
 		<br>
 		<label for="regista">Regista</label><br>
-		<select required="true" style="margin-bottom: 15px;" name="regista" id="regista">
+		<select required style="margin-bottom: 15px;" name="regista" id="regista">
 			<option value="">Tutti</option>
 			{% for r in reg %}
 				<option value="{{ r.id }}" id="{{ r.name }}" >{{ r.name }}</option>
@@ -34,10 +34,10 @@
 		</select>
 		<br>
 		<label for="durata">Durata</label><br>
-		<input type="number" autocomplete="off" style="margin-bottom: 15px; width: 70px" name="durata" required="true" class="safe_number">
+		<input type="number" autocomplete="off" id="durata" style="margin-bottom: 15px; width: 70px" name="durata" required class="safe_number">
 		<br>
 		<label for="genere">Genere</label><br>
-		<select required="true" name="genere" id="genere" style="margin-bottom: 15px;">
+		<select required name="genere" id="genere" style="margin-bottom: 15px;">
 			<option value="">Tutti</option>
 			{% for g in gen %}
 				<option value="{{ g.id }}" id="{{ g.name }}">{{ g.name }}</option>
@@ -61,7 +61,7 @@
 	<!--- Sezione Inserisci Spettacolo --->
 	<form action="/spettacoloInserito" method="post" style=" display: none" id="addSpettacolo">
 		<label for="filmIns">Film</label><br>
-		<select required="true" name="filmIns" id="filmIns" style="margin-bottom: 15px;">
+		<select required name="filmIns" id="filmIns" style="margin-bottom: 15px;">
 				<option value="">-</option>
 			{% for f in filmsN %}	
 				<option value="{{f.id}}">{{f.name}}</option>
@@ -69,10 +69,10 @@
 		</select>
 		<br>
 		<label for="datepicker">Data</label><br>
-		<input type="text" required="true" autocomplete="off" style="margin-bottom: 15px;" name="datepicker" required="true" id="datepicker">
+		<input type="text"  autocomplete="off" style="margin-bottom: 15px;" name="datepicker" required id="datepicker">
 		<br>
 		<label for="orario">Orario</label><br>
-		<select name="orario" required="true" id="orario" style="margin-bottom: 15px;">
+		<select name="orario" required id="orario" style="margin-bottom: 15px;">
 			<option value="">-</option>
 				<option value="15.00">15:00</option>
 				<option value="15.50">15:30</option>
@@ -93,7 +93,7 @@
 		</select>
 		<br>
 		<label for="sala">Sala</label><br>
-		<select name="sala" required="true" id="sala" style="margin-bottom: 15px;">
+		<select name="sala" required id="sala" style="margin-bottom: 15px;">
 				<option value="">-</option>
 				<option value="1">Sala 1 (20 posti)</option>
 				<option value="2">Sala 2 (30 posti)</option>

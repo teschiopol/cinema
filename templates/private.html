@@ -6,17 +6,17 @@
 <p style="margin-left: 20px; color: orange; font-size: 20px; margin-top: 30px">Area Privata:</p>
 	<form action="/aggUtente" method="post" style="margin-left: 40px; font-size: 18px">
 		<label for="email">Email</label><br>
-		<input type="text" autocomplete="off" name="email" readonly="true" style="line-height: 15px; margin-bottom: 20px; margin-top: 5px;" value="{{ utente['email'] }}">
+		<input type="text" autocomplete="off" name="email" id="email" readonly class="ml-5-20" value="{{ utente['email'] }}">
 		<br>
 		<label for="pwd">Password</label><br>
-		<input type="password" autocomplete="off" style="line-height: 15px; margin-bottom: 20px; margin-top: 5px;" name="pwd" required="yes" value="{{ utente['pwd'] }}">
+		<input type="password" autocomplete="off" id="pwd" class="ml-5-20" name="pwd" required value="{{ utente['pwd'] }}">
 		<input type="button" style="background-color: #9c209c; color: white; border: black solid 1px" id="mostra" value="Mostra" onclick="mostraPwd()" />
 		<br>
 		<label for="name">Nome</label><br>
-		<input type="text" autocomplete="off" name="name" style="line-height: 15px; margin-bottom: 20px; margin-top: 5px;" required="true" value="{{ utente['name'] }}">
+		<input type="text" autocomplete="off" name="name" id="name" class="ml-5-20" required value="{{ utente['name'] }}">
 		<br>
 		<label for="surname">Cognome</label><br>
-		<input type="text" autocomplete="off" style="line-height: 15px; margin-bottom: 20px; margin-top: 5px;" name="surname" required="yes" value="{{ utente['surname'] }}">
+		<input type="text" autocomplete="off" id="surname" class="ml-5-20" name="surname" required value="{{ utente['surname'] }}">
 		<br>
 		<input type="hidden" name="idruolo" value="2">
 		<input type="submit" class="btn-ok" value="Modifica">

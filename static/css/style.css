@@ -77,3 +77,18 @@ input[type="checkbox"]
     height: 20px;
     font-size: 15px;
 }
+
+.fr-20{
+    float: right;
+    margin-right: 20px;
+}
+
+.m-15-0{
+    margin: 15px 0;
+}
+
+.ml-5-20{
+    line-height: 15px;
+    margin-bottom: 20px;
+    margin-top: 5px;
+}

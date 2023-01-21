@@ -10,26 +10,26 @@
 	<div style="width: 100%; background-color: black; ">
 	<div style="width: 80%; height: 10%; margin-bottom: 20px; text-align: center; color: orange; padding-top: 20px; margin:auto; font-size: 25px"><a href="/">Cineplex</a><br>
 		{% if current_user.is_authenticated %}
-		<form action= '/logout' method="post" style="float: right; margin-right: 20px;">
+		<form action= '/logout' method="post" class="fr-20">
 			<button type="submit" class="btn-ok" style="color: white; background-color: #9c209c">Logout</button>
 		</form>
-		<form action= '/private' method="post" style="float: right; margin-right: 20px;">
+		<form action= '/private' method="post" class="fr-20">
 			<button class="btn-ok" style="width: 120px" type="submit" >{% if current_user.getruolo() == 2 %}Area Privata{% else %}Area Gestione{% endif %}</button>
 		</form>
 	{% else %}
-		<div style=" float: right; margin-right: 20px;">
-		<a  href='/user'/>
+		<div class="fr-20">
+		<a  href='/user'>
 			<button class="btn-ok">Login</button>
 		</a>
 		</div>
-		<div style="float: right; margin-right: 20px;">
-		<a  href='/signup'/>
+		<div class="fr-20">
+		<a  href='/signup'>
 			<button class="btn-ok" style="color: white; background-color: #9c209c">Registrati</button>
 		</a>
 		</div>
 	{% endif %}
 		<div style=" float: left; margin-left: 20px;">
-			<a  href='/'/>
+			<a  href='/'>
 				<button class="btn-ok">Home</button>
 			</a>
 		</div>	

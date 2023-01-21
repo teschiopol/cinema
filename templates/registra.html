@@ -7,17 +7,17 @@
 <p style="color: orange; margin-top: 30px;">Registrazione:</p>
 <form action="/registrato" method="post" >
 	<label for="email">Email</label><br>
-	<input type="text" autocomplete="off" name="email" required="true" style="margin: 15px 0;">
+	<input type="text" autocomplete="off" name="email" id="email" required class="m-15-0">
 	<br>
 	<label for="pwd">Password</label><br>
-	<input type="password" autocomplete="off" name="pwd" required="true" style="margin: 15px 0; margin-left: 60px;">
+	<input type="password" autocomplete="off" name="pwd" id="pwd" required style="margin: 15px 0; margin-left: 60px;">
 	<input type="button" id="mostra" style="background-color: #9c209c; color: white; border: black solid 1px" value="Mostra" onclick="mostraPwd()" />
 	<br>
 	<label for="name">Nome</label><br>
-	<input type="text" autocomplete="off" name="name" required="true" style="margin: 15px 0;">
+	<input type="text" autocomplete="off" name="name" id="name" required class="m-15-0">
 	<br>
 	<label for="surname">Cognome</label><br>
-	<input type="text" autocomplete="off" name="surname" required="true" style="margin: 15px 0;">
+	<input type="text" autocomplete="off" name="surname" id="surname" required class="m-15-0">
 	<br>
 	<input type="hidden" name="idruolo" value="2">
 	<input type="submit" class="btn-ok" value="Registrati">
