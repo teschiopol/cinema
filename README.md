@@ -2,6 +2,8 @@
 
 A University's Project (2020).
 
+Documentation's file refer to release 1.0.0.
+
 ## 💾 Install
 
 To install all packages, from Terminal:
