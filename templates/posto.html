@@ -56,39 +56,5 @@ Fila 3 |
 	{%for e in range(0, len)%}
 		document.getElementById('{{presi[e][0]}}').style.visibility = 'hidden';
 	{%endfor%}
-
-
-	var c=0;
-
-	// aggiorna contatore prezzo
-	function countPrice(){
-		c=0;
-		var form = document.getElementById('posto');
-		for (var i = 2; i < form.length ; i++) {
-			if (form[i].checked){
-				c++;
-			}
-		}
-		c = c * 5;
-		document.getElementById('priceTotale').innerHTML = 'Totale: '+c+',00 €' ;
-	}
-
-	// selezione di almeno un biglietto
-	function controllo(){
-		var form = document.getElementById('posto');
-		if (c!=0){
-			form.action = '/acquistaPosto';
-			form.submit();
-		}else{
-			document.getElementById('warning').style.display = 'block';
-		}
-	}
-
-	// indietro
-	function back(){
-		var form = document.getElementById('posto');
-		form.action = '/acquista';
-		form.submit();
-	}
 </script>
 {% endblock %}

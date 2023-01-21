@@ -5,6 +5,7 @@
     <title>Cineplex</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}"/>
+	<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </head>
 <body style="margin: 0px;">
 	<div style="width: 100%; background-color: black; ">
@@ -39,21 +40,5 @@
     {% block pagebody %}
     {% endblock %}
 	</div>
-
-	<!--- Script JS visto da tutti i file --->
-	<script type="text/javascript">
-		// mostra/nascondi campo pwd
-		function mostraPwd(){
-			var pwd = document.getElementsByName('pwd');
-			console.log(pwd);
-			if (pwd[0].type === 'password'){
-				pwd[0].type = 'text' ;
-				document.getElementById('mostra').value = 'Nascondi';
-			}else{
-				pwd[0].type = 'password';
-				document.getElementById('mostra').value = 'Mostra';
-			}
-		}
-	</script>
 </body>
 </html>
