@@ -1,4 +1,3 @@
-# da terminale, python app.py
 from flask import *
 from sqlalchemy import *
 from flask_login import LoginManager, UserMixin, login_required, current_user, login_user, logout_user
@@ -8,37 +7,37 @@ import datetime
 import math
 import re
 
-# dichairo app
+# declare app
 app = Flask(__name__)
 
-# variabile globale
+# global variable
 app.jinja_env.globals['today'] = date.today().strftime("%d-%m-%Y")
 
-# parametri da cambiare
+# installation parameters
 position = 'localhost'
 passwordDB = 'admin'
 username = 'postgres'
 
-#creazione e connessione al database
+# creation and db connection
 engine = create_engine('postgresql+psycopg2://postgres:'+passwordDB+'@'+position+'/postgres')
 conn = engine.connect()
 conn.execute("commit")
 try:
 	conn.execute("create database movie")
-except Exception:	
+except Exception:
 	print("nothing")
 conn.close()
 uri = 'postgresql+psycopg2://'+username+':'+passwordDB+'@'+position+'/movie'
 engine = create_engine(uri, echo=True)
 metadata = MetaData()
 
-#configurazione flask-login
+# configuration flask-login
 app.config['SECRET_KEY'] = 'super-secret'
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "prelogin"
 
-#estensione di user per autenticazione
+# extension of user to authenticate
 class User(UserMixin):
 	def __init__(self, id, name, surname, email, pwd, idruolo):
 		self.id = id
@@ -46,20 +45,20 @@ class User(UserMixin):
 		self.pwd = pwd
 		self.name = name
 		self.surname = surname
-		self.idruolo = idruolo 
-	
+		self.idruolo = idruolo
+
 	def get_id(self):
 		return str(self.id)
 
 	def getruolo(self):
-		return self.idruolo	
+		return self.idruolo
 
 def user_by_email(email):
 	conn = engine.connect()
 	rs = conn.execute('SELECT * FROM users WHERE email = %s', email)
 	user = rs.fetchone()
 	conn.close()
-	return User(user.id, user.name, user.surname, user.email, user.pwd, user.idruolo)	
+	return User(user.id, user.name, user.surname, user.email, user.pwd, user.idruolo)
 
 @login_manager.user_loader
 def load_user(id):
@@ -112,7 +111,7 @@ def ricerca():
 	where(and_(film.c.idregista == autori.c.id, genere.c.id == film.c.idgenere)).order_by('film')
 		films = conn.execute(s)
 	gen = conn.execute('SELECT * from genere')
-	regista = conn.execute('SELECT * FROM autori')	
+	regista = conn.execute('SELECT * FROM autori')
 	conn.close()
 	return render_template('index.html', films=films, genere=request.form['genere'], regista=request.form['regista'], gen=gen, reg=regista)
 
@@ -131,7 +130,7 @@ def compra():
 	conn = engine.connect()
 	ticket = conn.execute('SELECT * FROM spettacoli WHERE idfilm = %s and %s <= data  group by data, spettacoli.id order by data, ora', request.form["idfilm"], datetime.date.today())
 	film = conn.execute('SELECT * FROM film WHERE id = %s', request.form["idfilm"]).fetchone()
-	name = film['name'] 
+	name = film['name']
 	id = film['id']
 	conn.close()
 	result = ticket.fetchall()
@@ -159,9 +158,9 @@ def login():
 				login_user(user)
 				return redirect(url_for('home'))
 			else:
-				return render_template('user.html', successo='no')		
+				return render_template('user.html', successo='no')
 		else:
-			return render_template('user.html', successo='no')			
+			return render_template('user.html', successo='no')
 	else:
 		return render_template('user.html', successo='no')
 
@@ -199,7 +198,7 @@ def privateArea():
 		filmN = conn.execute('SELECT * from film order by film.name')
 		spet = conn.execute('SELECT spettacoli.*, film.name from spettacoli join film on film.id = spettacoli.idfilm where %s <= data order by film.name', datetime.date.today() )
 		conn.close()
-		return render_template('gestione.html', films=films, gen=genere, reg=regista, utenti=utenti, moneyF=moneyF, moneyR=moneyR, moneyG=moneyG, filmsN=filmN, spet=spet)	
+		return render_template('gestione.html', films=films, gen=genere, reg=regista, utenti=utenti, moneyF=moneyF, moneyR=moneyR, moneyG=moneyG, filmsN=filmN, spet=spet)
 
 # Registrazione
 @app.route('/signup')
@@ -220,7 +219,7 @@ def registrato():
 		return render_template('registra.html', errore='e')
 	#controllo input corretto
 	if not re.match("^[A-Za-z0-9_!?-]+$", request.form['pwd']) or not re.match("^[A-Za-z0-9]+$", request.form['name'] ) or not re.match("^[A-Za-z0-9]+$", request.form['surname'] ):
-		return render_template('registra.html', errore='d')			
+		return render_template('registra.html', errore='d')
 	#controllo esistenza mail
 	rs = conn.execute('SELECT name from users where email = %s', request.form['email'] )
 	rs = rs.fetchone()
@@ -243,7 +242,7 @@ def eliminafilm():
 	if len(ch) > 0:
 		conn.close()
 		return render_template('insertError.html')
-	else: 
+	else:
 		rs = conn.execute('DELETE FROM spettacoli WHERE idfilm = %s', request.form['idfilm'])
 		rs = conn.execute('DELETE FROM film WHERE id = %s', request.form['idfilm'])
 		conn.close()
@@ -259,7 +258,7 @@ def eliminaspettacolo():
 	if len(ch) > 0:
 		conn.close()
 		return render_template('insertError.html')
-	else: 	
+	else:
 		rs = conn.execute('DELETE FROM spettacoli WHERE id = %s', request.form['idspett'])
 		conn.close()
 		return render_template('confirmedOperation.html')
@@ -322,23 +321,23 @@ def insSpettacolo():
 			if c == 1:
 				if ora[3:5] == '50':
 					m = 30
-				else: 
-					m = 00	
+				else:
+					m = 00
 				h = int(ora[:2])
 				ora = datetime.datetime.today().replace(hour = h, minute =  m).strftime("%H:%M:%s")
-				insertSpett(date.strftime("%Y-%m-%d"), str(ora)[:6]+'00', request.form['sala'], request.form['filmIns'])				
+				insertSpett(date.strftime("%Y-%m-%d"), str(ora)[:6]+'00', request.form['sala'], request.form['filmIns'])
 				return render_template('confirmedOperation.html')
 	else:
 		if ora[3:5] == '50':
 			m = 30
-		else: 
-			m = 00	
+		else:
+			m = 00
 		h = int(ora[:2])
 		ora = datetime.datetime.today().replace(hour = h, minute =  m).strftime("%H:%M:%s")
 		insertSpett(date.strftime("%Y-%m-%d"), str(ora)[:6]+'00', request.form['sala'], request.form['filmIns'])
 		return render_template('confirmedOperation.html')
 	conn.close()
-	return render_template('insertError.html')	
+	return render_template('insertError.html')
 
 # Update dati utente
 @app.route('/aggUtente', methods=['GET', 'POST'])
@@ -362,7 +361,7 @@ def upUtente():
 		[request.form['pwd'], request.form['name'], request.form['surname'], request.form['email']])
 	utente = conn.execute('SELECT * from users WHERE id = %s', current_user.get_id()).fetchone()
 	conn.close()
-	return render_template('private.html', successo='si', utente=utente,  acquisto=acquisto, l=len(acquisto))	
+	return render_template('private.html', successo='si', utente=utente,  acquisto=acquisto, l=len(acquisto))
 
 # Selezione posto da acquistare per lo spettacolo
 @app.route('/prenotaPosto', methods=['GET', 'POST'])
@@ -419,7 +418,7 @@ def promuoviAdmin(index):
 	if ruolo == 1:
 		ruolo = 2
 	else:
-		ruolo= 1	
+		ruolo= 1
 	conn.execute('UPDATE users SET idruolo = %s WHERE id = %s', [ruolo, index])
 	conn.close()
 	return render_template('confirmedOperation.html')
