@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/teschiopol/cinema/badge)](https://www.codefactor.io/repository/github/teschiopol/cinema)
+
 # 🎥 Cinema
 
 A University's Project (2020).
