@@ -20,7 +20,7 @@ username = 'postgres'
 
 # creation and db connection
 engine = create_engine('postgresql+psycopg2://postgres:' + passwordDB + '@' + position + '/postgres')
-connection = engine.connection()
+connection = engine.connect()
 connection.execute("commit")
 try:
     connection.execute("create database movie")
@@ -56,7 +56,7 @@ class User(UserMixin):
 
 
 def user_by_email(email):
-    connect = engine.connection()
+    connect = engine.connect()
     rs = connect.execute('SELECT * FROM users WHERE email = %s', email)
     user = rs.fetchone()
     connect.close()
@@ -65,7 +65,7 @@ def user_by_email(email):
 
 @login_manager.user_loader
 def load_user(id_user):
-    connect = engine.connection()
+    connect = engine.connect()
     rs = connect.execute('SELECT * FROM users WHERE id = %s', id_user)
     user = rs.fetchone()
     connect.close()
@@ -89,7 +89,7 @@ def invalid_url():
 # Homepage
 @app.route('/')
 def home():
-    connect = engine.connection()
+    connect = engine.connect()
     films = connect.execute('SELECT film.name as film, film.id as id,  film.durata as durata, genere.name as '
                             'genere, autori.name as autore FROM film JOIN autori on film.idregista = autori.id '
                             'JOIN genere on genere.id = film.idgenere order by film.name')
@@ -102,7 +102,7 @@ def home():
 # Query Cerca Film
 @app.route('/cerca', methods=['GET', 'POST'])
 def ricerca():
-    connect = engine.connection()
+    connect = engine.connect()
     if request.form['genere'] != '' and request.form['regista'] != '':
         s = select([film.c.name.label('film'), film.c.id.label('id'), film.c.durata.label('durata'),
                     genere.c.name.label('genere'), autori.c.name.label('autore')]). \
@@ -147,7 +147,7 @@ def pre_login():
 @app.route('/acquista', methods=['GET', 'POST'])
 @login_required
 def compra():
-    connect = engine.connection()
+    connect = engine.connect()
     ticket = connect.execute(
         'SELECT * FROM spettacoli WHERE idfilm = %s and %s <= data  group by data, spettacoli.id order by data, ora',
         request.form["idfilm"], datetime.date.today())
@@ -170,7 +170,7 @@ def login():
         match1 = re.match("^[A-Za-z0-9_!?-]+$", request.form['pwd'])
         if match is None or match1 is None:
             return render_template('user.html', successo='no')
-        connect = engine.connection()
+        connect = engine.connect()
         rs = connect.execute('SELECT pwd FROM users WHERE email = %s', [request.form['email']])
         controllo = rs.fetchone()
         if controllo is not None:
@@ -203,7 +203,7 @@ def private_area():
     if current_user.get_role() == 2:
         return redirect(url_for('testpp'))
     else:
-        connect = engine.connection()
+        connect = engine.connect()
         films = connect.execute(
             'SELECT film.name as film, film.id as id,  film.durata as durata, genere.name as genere, autori.name as '
             'autore FROM film JOIN autori on film.idregista = autori.id JOIN genere on genere.id = film.idgenere order '
@@ -244,7 +244,7 @@ def sign_up():
 # Handler SignUp
 @app.route('/registrato', methods=['GET', 'POST'])
 def registrato():
-    connect = engine.connection()
+    connect = engine.connect()
     # controllo formato mail
     addressToVerify = request.form['email']
     match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', addressToVerify)
@@ -273,7 +273,7 @@ def registrato():
 @app.route('/eliminaFilm', methods=['GET', 'POST'])
 @login_required
 def eliminafilm():
-    connect = engine.connection()
+    connect = engine.connect()
     ch = connect.execute('SELECT * FROM incassi i join spettacoli s on i.idspettacoli = s.id WHERE s.idfilm = %s',
                          request.form['idfilm']).fetchall()
     ch = list(ch)
@@ -291,7 +291,7 @@ def eliminafilm():
 @app.route('/eliminaSpettacolo', methods=['GET', 'POST'])
 @login_required
 def eliminaspettacolo():
-    connect = engine.connection()
+    connect = engine.connect()
     ch = connect.execute('SELECT * from incassi WHERE idspettacoli = %s', request.form['idspett']).fetchall()
     ch = list(ch)
     if len(ch) > 0:
@@ -310,7 +310,7 @@ def ins_film():
     duration = request.form['durata']
     if int(duration) < 1:
         return render_template('insertError.html')
-    connect = engine.connection()
+    connect = engine.connect()
     rs = connect.execute('SELECT * from film WHERE name = %s', request.form['name'])
     if rs.fetchone() is None:
         connect.execute('INSERT INTO film(name,idregista,durata,idgenere) VALUES (%s, %s, %s, %s)',
@@ -321,7 +321,7 @@ def ins_film():
 
 # Insert show
 def insert_show(dt, hr, ns, idf):
-    connect = engine.connection()
+    connect = engine.connect()
     connect.execute('INSERT INTO spettacoli(data,ora,nsala,idfilm) '
                     'VALUES (%s, %s, %s, %s)', [dt, hr, ns, idf])
 
@@ -330,7 +330,7 @@ def insert_show(dt, hr, ns, idf):
 @app.route('/spettacoloInserito', methods=['GET', 'POST'])
 @login_required
 def ins_show():
-    connect = engine.connection()
+    connect = engine.connect()
     date_sel = datetime.datetime.strptime(request.form['datepicker'], "%d-%m-%Y")
     if date_sel <= datetime.datetime.today():
         return render_template('insertError.html')
@@ -380,7 +380,7 @@ def ins_show():
             m = 00
         h = int(ora[:2])
         ora = datetime.datetime.today().replace(hour=h, minute=m).strftime("%H:%M:%s")
-        insert_show(date_sel.strftime("%Y-%m-%d"), str(ora)[:6] + '00', request.form['sala'], request.form['filmIns']) 
+        insert_show(date_sel.strftime("%Y-%m-%d"), str(ora)[:6] + '00', request.form['sala'], request.form['filmIns'])
         return render_template('confirmedOperation.html')
     connect.close()
     return render_template('insertError.html')
@@ -390,7 +390,7 @@ def ins_show():
 @app.route('/aggUtente', methods=['GET', 'POST'])
 @login_required
 def up_user():
-    connect = engine.connection()
+    connect = engine.connect()
     # parsing input
     addressToVerify = request.form['email']
     match = re.match('^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$', addressToVerify)
@@ -419,7 +419,7 @@ def up_user():
 def book_place():
     spettacolo = request.form['spettacolo']
     films = request.form['film']
-    connect = engine.connection()
+    connect = engine.connect()
     presi = connect.execute('SELECT posto FROM sala WHERE idspettacoli = %s', spettacolo)
     sal = request.form['sala']
     connect.close()
@@ -437,7 +437,7 @@ def acquisto():
         pos.append(s)
         c = c + 1
     pos = pos[2:]
-    connect = engine.connection()
+    connect = engine.connect()
     connect.execute('INSERT INTO incassi(prezzo, idspettacoli, quantita) VALUES (5, %s, %s)',
                     [int(request.form["idspettacoli"]), c])
     for e in pos:
@@ -451,7 +451,7 @@ def acquisto():
 @app.route('/gestUtente', methods=['GET', 'POST'])
 @login_required
 def gest_user():
-    connect = engine.connection()
+    connect = engine.connect()
     ch = connect.execute(
         'SELECT * from sala join spettacoli on sala.idspettacoli = spettacoli.id where idutente = %s and  %s <= data ',
         request.form['idutente'], datetime.date.today()).fetchall()
@@ -470,7 +470,7 @@ def gest_user():
 @app.route('/promuoviAdmin/<index>')
 @login_required
 def promote_admin(index):
-    connect = engine.connection()
+    connect = engine.connect()
     index = int(index)
     ruolo = connect.execute('SELECT idRuolo from users where id = %s', index).fetchone()['idRuolo']
     if ruolo == 1:
@@ -486,7 +486,7 @@ def promote_admin(index):
 @app.route('/pp', methods=['GET', 'POST'])
 @login_required
 def testpp():
-    connect = engine.connection()
+    connect = engine.connect()
     utente = connect.execute('SELECT * from users WHERE id = %s', current_user.get_id()).fetchone()
     acq = connect.execute('select distinct sala.posto, spettacoli.data, spettacoli.ora, film.name, spettacoli.nsala '
                           'from sala join spettacoli on sala.idspettacoli = spettacoli.id join film on'
@@ -498,6 +498,7 @@ def testpp():
     return render_template('private.html', utente=utente, acquisto=acq, l=len(acq))
 
 
+# TODO: manage debug mode from terminal options
 # main
 if __name__ == '__main__':
     app.run(debug=True)
