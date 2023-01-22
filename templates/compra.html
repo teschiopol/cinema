@@ -13,7 +13,7 @@
 		<input type="hidden" name="spettacolo" value="{{ticket[0][0]}}">
 		<input type="hidden" name="film" value="{{ id }}">
 		<input type="hidden" name="sala" value="{{ ticket[0][3] }}">
-		<p style="margin: 0 0 5 0;">{{ticket[0][1].strftime("%d/%m/%y")}}</p>
+		<p style="margin: 0 0 5px;">{{ticket[0][1].strftime("%d/%m/%y")}}</p>
 		<button type="submit" class="btn-ok">{{ ticket[0][2].strftime("%H:%M") }}</button> - Sala {{ticket[0][3]}}
 	</form>
 
@@ -23,7 +23,7 @@
 		<input type="hidden" name="film" value="{{ id }}">
 		<input type="hidden" name="sala" value="{{ ticket[c][3] }}">
 		{% if ticket[c][1] != ticket[c-1][1] %}
-		<p style="margin: 0 0 5 0;">{{ticket[c][1].strftime("%d/%m/%y")}}</p>
+		<p style="margin: 0 0 5px;">{{ticket[c][1].strftime("%d/%m/%y")}}</p>
 		{% endif %}
 		<button type="submit" class="btn-ok">{{ ticket[c][2].strftime("%H:%M") }}</button> - Sala {{ticket[c][3]}}
 	</form>
