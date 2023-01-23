@@ -7,17 +7,13 @@ import datetime
 import math
 import re
 import sys
+from config import *
 
 # declare app
 app = Flask(__name__)
 
 # global variable
 app.jinja_env.globals['today'] = date.today().strftime("%d-%m-%Y")
-
-# installation parameters
-position = 'localhost'
-passwordDB = 'admin'
-username = 'postgres'
 
 # creation and db connection
 engine = create_engine('postgresql+psycopg2://postgres:' + passwordDB + '@' + position + '/postgres')

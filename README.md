@@ -21,6 +21,8 @@ teschiopol@cinema:~$ pip3 install pipreqs
 teschiopol@cinema:~$ pipreqs
 ```
 
+Set DB parameters on ```config.py```.
+
 ## 🔌 Run
 
 From Terminal, simply:
