@@ -1,5 +1,3 @@
-/* eslint no-unused-vars: "error"*/
-/* exported */
 // show / hide campo pwd
 function mostraPwd(){
     var pwd = document.getElementsByName('pwd');
