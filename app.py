@@ -6,6 +6,7 @@ from datetime import date, datetime
 import datetime
 import math
 import re
+import sys
 
 # declare app
 app = Flask(__name__)
@@ -498,7 +499,9 @@ def testpp():
     return render_template('private.html', utente=utente, acquisto=acq, l=len(acq))
 
 
-# TODO: manage debug mode from terminal options
 # main
 if __name__ == '__main__':
-    app.run(debug=True)
+    debug_opt = False
+    if len(sys.argv) > 1 and sys.argv[1] == 'test':
+        debug_opt = True
+    app.run(debug=debug_opt)

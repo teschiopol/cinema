@@ -28,3 +28,5 @@ From Terminal, simply:
 ```bash 
 teschiopol@cinema:~$ python3 app.py
 ```
+
+Add arg 'test' to run on Debug Mode.
