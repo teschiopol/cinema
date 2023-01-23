@@ -92,3 +92,19 @@ input[type="checkbox"]
     margin-bottom: 20px;
     margin-top: 5px;
 }
+
+/* base */
+.main-btn{
+    color: white;
+    background-color: #9c209c;
+}
+
+.title{
+    width: 80%;
+    height: 10%;
+    text-align: center;
+    color: orange;
+    padding-top: 20px;
+    margin:auto;
+    font-size: 25px;
+}

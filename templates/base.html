@@ -1,4 +1,4 @@
-<!--- Template di ogni pagina --->
+<!--- Template every page --->
 
 <html>
 <head>
@@ -9,13 +9,13 @@
 </head>
 <body style="margin: 0px;">
 	<div style="width: 100%; background-color: black; ">
-	<div style="width: 80%; height: 10%; text-align: center; color: orange; padding-top: 20px; margin:auto; font-size: 25px"><a href="/">Cineplex</a><br>
+	<div class="title"><a href="/">Cineplex</a><br>
 		{% if current_user.is_authenticated %}
 		<form action= '/logout' method="post" class="fr-20">
-			<button type="submit" class="btn-ok" style="color: white; background-color: #9c209c">Logout</button>
+			<button type="submit" class="btn-ok main-btn">Logout</button>
 		</form>
 		<form action= '/private' method="post" class="fr-20">
-			<button class="btn-ok" style="width: 120px" type="submit" >{% if current_user.getruolo() == 2 %}Area Privata{% else %}Area Gestione{% endif %}</button>
+			<button class="btn-ok" style="width: 120px" type="submit" >{% if current_user.get_role() == 2 %}Private Area{% else %}Area Manage{% endif %}</button>
 		</form>
 	{% else %}
 		<div class="fr-20">
@@ -25,7 +25,7 @@
 		</div>
 		<div class="fr-20">
 		<a  href='/signup'>
-			<button class="btn-ok" style="color: white; background-color: #9c209c">Registrati</button>
+			<button class="btn-ok main-btn" >Sign Up</button>
 		</a>
 		</div>
 	{% endif %}
