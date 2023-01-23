@@ -1,7 +1,7 @@
 from sqlalchemy import *
 from app import engine, metadata
 
-# creazione tabelle
+# Tables creation
 users = Table('users', metadata,
               Column('id', Integer, primary_key=True),
               Column('name', String),

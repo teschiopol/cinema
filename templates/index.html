@@ -24,7 +24,7 @@
 		<input type="button" class="btn-ok" style="color: orange; background-color: black" onclick=" var el = this.form.elements['genere']; var el2 = this.form.elements['regista']; el.value = ''; el2.value = ''; " value="Reset">
 	</form>
 	<!--- Lista film presenti in catalogo --->
-	<div style="border:solid; border-width: 1px; margin-bottom: 10px; width: 80%; margin-left: 10%"></div>
+	<div class="border-list"></div>
 	<div style="overflow: auto; height: 70%; width: 70%; margin: auto">
 	{% for f in films %}
 		<form action="/acquista" method="POST" style="margin-top: 10px;   width: 100%;">
@@ -35,7 +35,7 @@
 		<div style="border:solid; border-width: 1px; margin-bottom: 10px; width: 90%"></div>
 	{% endfor %}
 	</div>
-	<div style="border:solid; border-width: 1px; margin-bottom: 10px; width: 80%; margin-left: 10%"></div>
+	<div class="border-list"></div>
 </div>	
 
 <!--- Script JS per filtro cerca --->
