@@ -3,7 +3,6 @@ from flask import *
 from flask_login import LoginManager, UserMixin, login_required, current_user, login_user, logout_user
 from models import *
 from datetime import date, datetime
-import datetime
 import math
 import re
 import sys
@@ -16,7 +15,7 @@ app = Flask(__name__)
 app.jinja_env.globals['today'] = date.today().strftime("%d-%m-%Y")
 
 # creation and db connection
-engine = create_engine('postgresql+psycopg2://postgres:' + passwordDB + '@' + position + '/postgres')
+engine = create_engine('postgresql+psycopg2://postgres:' + password_db + '@' + position + '/postgres')
 connection = engine.connect()
 connection.execute("commit")
 try:
@@ -24,12 +23,12 @@ try:
 except Exception:
     print("nothing")
 connection.close()
-uri = 'postgresql+psycopg2://' + username + ':' + passwordDB + '@' + position + '/movie'
+uri = 'postgresql+psycopg2://' + username + ':' + password_db + '@' + position + '/movie'
 engine = create_engine(uri, echo=True)
 metadata = MetaData()
 
 # configuration flask-login
-app.config['SECRET_KEY'] = 'super-secret'
+app.config['SECRET_KEY'] = password_login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "prelogin"
@@ -71,13 +70,13 @@ def load_user(id_user):
 
 # error page doesn't exist
 @app.errorhandler(404)
-def invalid_url():
+def exist_url():
     return redirect(url_for('home'))
 
 
 # error page access forbidden
 @app.errorhandler(400)
-def invalid_url():
+def forbidden_url():
     return redirect(url_for('privateArea'))
 
 
@@ -349,17 +348,21 @@ def ins_show():
                 v = v + 0.2
             mylist.remove(v)
             dur = math.ceil(float(r[1]) / 30)
-            for a in range(1, dur):
+            a = 1
+            while a < dur:
                 v = v + 0.5
                 mylist.remove(v)
+                a += 1
         n = float(ora)
         if n in mylist:
             c = 1
             dur = math.ceil(float(nl) / 30)
-            for b in range(1, dur):
+            b = 1
+            while b < dur:
                 n = n + 0.5
                 if n not in mylist:
                     c = 0
+                b += 1
             if c == 1:
                 if ora[3:5] == '50':
                     m = 30

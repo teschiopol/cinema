@@ -1,4 +1,5 @@
 # installation parameters DB
 position = 'localhost'
-passwordDB = 'admin'
+password_db = 'admin'
 username = 'postgres'
+password_login = 'super-secret'
